@@ -123,7 +123,7 @@ public class CourseNavigationUtilities {
 			
 			WebElement edit_name_button = c.findElement(EDITCOURSE_BUTTON);
     	    		
-    	    wd = Click.element(wd,edit_name_button);
+    	    wd = Click.clickelement(wd,edit_name_button);
     	    		
     	    //wait for edit modal
     	    WebElement edit_modal = Wait.notTooMuch(wd).until(ExpectedConditions.visibilityOfElementLocated(EDITDELETE_MODAL));
@@ -158,18 +158,18 @@ public class CourseNavigationUtilities {
 
 			WebElement edit_name_button = c.findElement(EDITCOURSE_BUTTON);
 
-			wd = Click.element(wd, edit_name_button);
+			wd = Click.clickelement(wd, edit_name_button);
 
 			//wait for edit modal
 			WebElement edit_modal = Wait.notTooMuch(wd).until(ExpectedConditions.visibilityOfElementLocated(EDITDELETE_MODAL));
 
 			//Allow delete
 			WebElement delete_check = Wait.aLittle(wd).until(ExpectedConditions.visibilityOfElementLocated(EDITCOURSE_DELETE_CHECK));
-			wd = Click.element(wd, delete_check);
+			wd = Click.clickelement(wd, delete_check);
 			
 			//press delete
 			WebElement delete_button = Wait.aLittle(wd).until(ExpectedConditions.visibilityOfElementLocated(EDITCOURSE_DELETE_BUTTON));
-			wd = Click.element(wd, delete_button);
+			wd = Click.clickelement(wd, delete_button);
 
 			//save
 			wd = Click.element(wd, EDITCOURSE_MODAL_SAVE);
@@ -245,7 +245,7 @@ public class CourseNavigationUtilities {
 		String id = tab.getAttribute("id");
 		System.out.println("El valor de tab es : " + tab);
 		System.out.println("El valor del id es : " + id);
-		wd = Click.element(wd,tab);
+		wd = Click.clickelement(wd,tab);
 		id=id.replace("label", "content");
 		Wait.aLittle(wd).until(ExpectedConditions.visibilityOfElementLocated(By.id(id)));	
 		

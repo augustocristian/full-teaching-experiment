@@ -45,7 +45,7 @@ public class UserUtilities {
 			user_field.sendKeys(user);
 			pass_field.sendKeys(password);
 			
-			wd = Click.element(wd, submit_field);
+			wd = Click.clickelement(wd, submit_field);
 			
 		}
 		catch(TimeoutException tOe) {
@@ -67,7 +67,7 @@ public class UserUtilities {
 		try {
 			WebElement settings_button  = Wait.notTooMuch(wd).until(ExpectedConditions.visibilityOfElementLocated(SETTINGS_BUTTON));
 		
-			wd = Click.element(wd, settings_button);
+			wd = Click.clickelement(wd, settings_button);
 		}catch(TimeoutException toe) {
 			throw new NotLoggedException(toe.getMessage());
 		}
@@ -88,7 +88,7 @@ public class UserUtilities {
 			WebElement settings_button  = Wait.notTooMuch(wd).until(ExpectedConditions.visibilityOfElementLocated(SETTINGS_BUTTON));
 			
 			if(!NavigationUtilities.amIHere(wd, host+"/settings")) {
-				wd = Click.element(wd, settings_button);
+				wd = Click.clickelement(wd, settings_button);
 			}
 			else {
 				goBack = false;
@@ -117,11 +117,11 @@ public class UserUtilities {
 		try {
 			WebElement arrow_button  = Wait.notTooMuch(wd).until(ExpectedConditions.visibilityOfElementLocated(MAINMENU_ARROW));
 		
-			wd = Click.element(wd, arrow_button);
+			wd = Click.clickelement(wd, arrow_button);
 			
 			WebElement logout_button  = Wait.aLittle(wd).until(ExpectedConditions.visibilityOfElementLocated(LOGOUT_BUTTON));
 			
-			wd = Click.element(wd, logout_button);
+			wd = Click.clickelement(wd, logout_button);
 			
 			//go to home as the log out has been done
 			NavigationUtilities.getUrlAndWaitFooter(wd, login_url.replace("__HOST__", host));

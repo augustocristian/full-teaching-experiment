@@ -160,15 +160,15 @@ public class ForumNavigationUtilities {
 
 		//click edit
 		WebElement edit_button =  Wait.notTooMuch(wd).until(ExpectedConditions.visibilityOfElementLocated(FORUM_EDITENTRY_ICON));
-		wd = Click.element(wd,edit_button);
+		wd = Click.clickelement(wd,edit_button);
 		WebElement edit_modal = Wait.notTooMuch(wd).until(ExpectedConditions.visibilityOfElementLocated(ENABLEFORUM_MODAL));
 
 		//press enable
 		WebElement enable_button = edit_modal.findElement(ENABLEFORUM_BUTTON);
-		wd = Click.element(wd, enable_button);
+		wd = Click.clickelement(wd, enable_button);
 
 		WebElement save_button = edit_modal.findElement(ENABLEFORUM_MODAL_SAVEBUTTON);
-		wd = Click.element(wd, save_button);
+		wd = Click.clickelement(wd, save_button);
 
 		WebElement forum_tab_content = CourseNavigationUtilities.wait4TabContent(wd, FORUM_ICON);
 
@@ -181,15 +181,15 @@ public class ForumNavigationUtilities {
 
 		//click edit
 		WebElement edit_button =  Wait.notTooMuch(wd).until(ExpectedConditions.visibilityOfElementLocated(FORUM_EDITENTRY_ICON));
-		wd = Click.element(wd,edit_button);
+		wd = Click.clickelement(wd,edit_button);
 		WebElement edit_modal = Wait.notTooMuch(wd).until(ExpectedConditions.visibilityOfElementLocated(ENABLEFORUM_MODAL));
 
 		//press disable
 		WebElement enable_button = edit_modal.findElement(DISABLEFORUM_BUTTON);
-		wd = Click.element(wd, enable_button);
+		wd = Click.clickelement(wd, enable_button);
 
 		WebElement save_button = edit_modal.findElement(ENABLEFORUM_MODAL_SAVEBUTTON);
-		wd = Click.element(wd, save_button);
+		wd = Click.clickelement(wd, save_button);
 
 		WebElement forum_tab_content = CourseNavigationUtilities.wait4TabContent(wd, FORUM_ICON);
 

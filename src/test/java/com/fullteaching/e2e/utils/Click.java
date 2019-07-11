@@ -73,7 +73,7 @@ public class Click {
 	}
 	
 	
-	public static WebDriver element(WebDriver wd, WebElement ele) throws ElementNotFoundException {
+	public static WebDriver clickelement(WebDriver wd, WebElement ele) throws ElementNotFoundException {
 		
 		String tagName = ele.getTagName();
 		String text= ele.getText();
@@ -116,7 +116,7 @@ public class Click {
 		
 		WebElement ele = wd.findElement(eleBy);		
 		
-		return element(wd, ele);
+		return clickelement(wd, ele);
 		
 	}
 }
