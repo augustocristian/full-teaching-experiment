@@ -11,7 +11,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -97,13 +99,14 @@ public class UserTest extends FullTeachingTestE2E {
 		}
 	}
 
-	@Test
-	public void loginTest() throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
+	@ParameterizedTest
+	@MethodSource("data")
+	public void loginTest(String usermail, String password, String role) throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
 
-		user= setupBrowser("chrome",teacherName,teacherMail,100);
+		user= setupBrowser("chrome",teacherName,usermail,100);
 		WebDriver driver=user.getDriver();
 		try {
-			this.slowLogin(user, teacherMail, teacherPass);
+			this.slowLogin(user, usermail, password);
 
 			driver = UserUtilities.checkLogin(driver, teacherMail);
 

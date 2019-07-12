@@ -5,8 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +18,9 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -29,6 +36,7 @@ import com.fullteaching.e2e.common.exception.BadUserException;
 import com.fullteaching.e2e.common.exception.ElementNotFoundException;
 import com.fullteaching.e2e.common.exception.NotLoggedException;
 import com.fullteaching.e2e.common.exception.TimeOutExeception;
+import com.fullteaching.e2e.utils.ParameterLoader;
 import com.fullteaching.e2e.utils.Click;
 import com.fullteaching.e2e.utils.DOMMannager;
 import com.fullteaching.e2e.utils.Wait;
@@ -58,6 +66,9 @@ public class LoggedForumTest extends FullTeachingTestE2E {
     static Class<? extends WebDriver> chrome = ChromeDriver.class;
     static Class<? extends WebDriver> firefox = FirefoxDriver.class;
     
+	public static Stream<Arguments> data() throws IOException {
+		return ParameterLoader.getTestUsers();
+	}
     
     String courseName="Pseudoscientific course for treating the evil eye";
     WebDriver driver;
@@ -111,7 +122,8 @@ public class LoggedForumTest extends FullTeachingTestE2E {
         }
     }
 
-    @Test
+    @ParameterizedTest
+	@MethodSource("data")
 	public void forumLoadEntriesTest()  throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
 
 	
@@ -187,7 +199,8 @@ public class LoggedForumTest extends FullTeachingTestE2E {
 	 * the entry was created correctly and ensures that there are only one comment that 
 	 * correponds with the body of that entry. 
 	 */ 
-    @Test
+    @ParameterizedTest
+	@MethodSource("data")
 	public void forumNewEntryTest()  throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
 
 	
@@ -267,17 +280,18 @@ public class LoggedForumTest extends FullTeachingTestE2E {
 	 * in this entry with the custom content(the current date and hour).Finally, we iterate 
 	 * over all comments looking for the comment that previously we create. 
 	 */ 
-
-	public void forumNewCommentTest()  throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
+    @ParameterizedTest
+	@MethodSource("data")
+	public void forumNewCommentTest(String usermail, String password, String role)  throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
 
 		
-	this.user = setupBrowser("chrome", teacherName, teacherMail, 30);
+	this.user = setupBrowser("chrome", teacherName, usermail, 30);
 		
 		WebDriver driver=user.getDriver();
 
 
 
-		this.slowLogin(user, teacherMail, teacherPass);
+		this.slowLogin(user, usermail, password);
 
 
 		Calendar calendar = Calendar.getInstance();
@@ -357,16 +371,17 @@ public class LoggedForumTest extends FullTeachingTestE2E {
 	 * that the comment was correctly published.
 	 * 
 	 */ 
-
-	public void forumNewReply2CommentTest()  throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
+    @ParameterizedTest
+	@MethodSource("data")
+	public void forumNewReply2CommentTest(String usermail, String password, String role)  throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
 	
-	this.user = setupBrowser("chrome", teacherName, teacherMail, 30);
+	this.user = setupBrowser("chrome", teacherName, usermail, 30);
 		
 		WebDriver driver=user.getDriver();
 
 
 
-		this.slowLogin(user, teacherMail, teacherPass);
+		this.slowLogin(user, usermail, password);
 
 
 		Calendar calendar = Calendar.getInstance();

@@ -93,6 +93,8 @@ public class LoggedVideoSession extends FullTeachingTestE2E {
     public LoggedVideoSession() {
         super();
     }
+    
+    
 
     @BeforeAll()
     static void setupAll() {

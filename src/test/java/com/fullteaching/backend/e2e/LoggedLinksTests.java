@@ -1,16 +1,22 @@
 package com.fullteaching.backend.e2e;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import com.fullteaching.e2e.common.NavigationUtilities;
@@ -19,6 +25,8 @@ import com.fullteaching.e2e.common.exception.BadUserException;
 import com.fullteaching.e2e.common.exception.ElementNotFoundException;
 import com.fullteaching.e2e.common.exception.NotLoggedException;
 import com.fullteaching.e2e.common.exception.TimeOutExeception;
+import com.fullteaching.e2e.utils.ParameterLoader;
+
 import io.github.bonigarcia.SeleniumExtension;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.github.bonigarcia.wdm.FirefoxDriverManager;
@@ -48,6 +56,12 @@ public class LoggedLinksTests extends FullTeachingTestE2E {
         super();
     }
 
+	public static Stream<Arguments> data() throws IOException {
+		return ParameterLoader.getTestUsers();
+	}
+	
+	
+	
     @BeforeAll()
     static void setupAll() {
 
@@ -91,17 +105,18 @@ public class LoggedLinksTests extends FullTeachingTestE2E {
         }
     }
 
-    @Test
-	public void spiderLoggedTest()  throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
+    @ParameterizedTest
+	@MethodSource("data")
+	public void spiderLoggedTest(String usermail, String password, String role)  throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
 
 	
-this.user = setupBrowser("chrome", teacherName, teacherMail, 30);
+this.user = setupBrowser("chrome", teacherName, usermail, 30);
 		
 		WebDriver driver=user.getDriver();
 
 
 
-		this.slowLogin(user, teacherMail, teacherPass);
+		this.slowLogin(user, usermail, password);
 
 
 		/*navigate from home*/

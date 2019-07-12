@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -92,7 +94,7 @@ public class CourseStudentTest extends FullTeachingTestE2E {
 	@AfterEach
 	void dispose(TestInfo info) {
 		try {
-			this.logout(user);
+			//this.logout(user);
 			user.dispose();
 		} finally {
 			log.info("##### Finish test: "
@@ -104,13 +106,13 @@ public class CourseStudentTest extends FullTeachingTestE2E {
 	public void studentCourseMainTest()throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
 
 
-		this.user = setupBrowser("chrome", teacherName, teacherMail, 30);
+		this.user = setupBrowser("chrome", studentName, studentMail, 30);
 
 		WebDriver driver=user.getDriver();
 
 
 
-		this.slowLogin(user, teacherMail, teacherPass);
+		this.slowLogin(user, studentMail, studentPass);
 
 
 

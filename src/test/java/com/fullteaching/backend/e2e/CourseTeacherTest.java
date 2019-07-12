@@ -10,7 +10,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -52,17 +54,17 @@ public class CourseTeacherTest extends FullTeachingTestE2E {
 
 	static Exception ex = null;
 
-	
-    static Class<? extends WebDriver> chrome = ChromeDriver.class;
-    static Class<? extends WebDriver> firefox = FirefoxDriver.class;
-    
+
+	static Class<? extends WebDriver> chrome = ChromeDriver.class;
+	static Class<? extends WebDriver> firefox = FirefoxDriver.class;
+
 	final String teacherMail = "teacher@gmail.com";
 	final String teacherPass = "pass";
 	final String teacherName = "Teacher Cheater";
 	final String studentMail = "student1@gmail.com";
 	final String studentPass = "pass";
 	final String studentName = "Student Imprudent";
-	
+
 	String course_title;
 
 	String courseName="Pseudoscientific course for treating the evil eye";
@@ -74,10 +76,10 @@ public class CourseTeacherTest extends FullTeachingTestE2E {
 		super();
 	}
 
-	   public static Stream<Arguments> data() throws IOException {
-	        return ParameterLoader.getTestTeachers();
-	    }
-		
+	public static Stream<Arguments> data() throws IOException {
+		return ParameterLoader.getTestTeachers();
+	}
+
 	@BeforeAll()
 	static void setupAll() {
 
@@ -122,7 +124,7 @@ public class CourseTeacherTest extends FullTeachingTestE2E {
 	}
 
 	@Test
-	public void teacherCourseMainTest(String usermail, String password, String role) throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
+	public void teacherCourseMainTest() throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
 
 
 		this.user = setupBrowser("chrome", teacherName, teacherMail, 30);
@@ -188,17 +190,17 @@ public class CourseTeacherTest extends FullTeachingTestE2E {
 	 * After that, we proceed to check if the course dont appears in the list. 
 	 * 
 	 */ 
-@Test
-	public void teacherCreateAndDeleteCourseTest(String usermail, String password, String role) throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
+	@Test
+	public void teacherCreateAndDeleteCourseTest() throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
 
 
-	this.user = setupBrowser("chrome", teacherName, teacherMail, 30);
+		this.user = setupBrowser("chrome", teacherName, teacherMail, 30);
 
-	WebDriver driver=user.getDriver();
+		WebDriver driver=user.getDriver();
 
 
 
-	this.slowLogin(user, teacherMail, teacherPass);
+		this.slowLogin(user, teacherMail, teacherPass);
 
 
 
@@ -283,7 +285,7 @@ public class CourseTeacherTest extends FullTeachingTestE2E {
 	 * in the Attenders list( check if the user is in it)
 	 */ 
 	@Test
-	public void teacherEditCourseValues(String usermail, String password, String role) throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
+	public void teacherEditCourseValues() throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
 
 
 
@@ -506,8 +508,7 @@ public class CourseTeacherTest extends FullTeachingTestE2E {
 	}
 
 	@Disabled
-	@Test
-	public void teacherDeleteCourseTest(String usermail, String password, String role) throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
+	public void teacherDeleteCourseTest() throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
 
 
 		this.user = setupBrowser("chrome", teacherName, teacherMail, 30);
