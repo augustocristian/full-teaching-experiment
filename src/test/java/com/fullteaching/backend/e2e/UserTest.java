@@ -43,12 +43,7 @@ public class UserTest extends FullTeachingTestE2E {
     static Class<? extends WebDriver> chrome = ChromeDriver.class;
     static Class<? extends WebDriver> firefox = FirefoxDriver.class;
 
-	final String teacherMail = "teacher@gmail.com";
-	final String teacherPass = "pass";
-	final String teacherName = "Teacher Cheater";
-	final String studentMail = "student1@gmail.com";
-	final String studentPass = "pass";
-	final String studentName = "Student Imprudent";
+
 
 	BrowserUser user;
 
@@ -104,12 +99,12 @@ public class UserTest extends FullTeachingTestE2E {
 	@ParameterizedTest
 	public void loginTest(String usermail, String password,String username, String role) throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
 
-		user= setupBrowser("chrome",teacherName,usermail,100);
+		user= setupBrowser("chrome",username,usermail,100);
 		WebDriver driver=user.getDriver();
 		try {
 			this.slowLogin(user, usermail, password);
 
-			driver = UserUtilities.checkLogin(driver, teacherMail);
+			driver = UserUtilities.checkLogin(driver, usermail);
 
 			assertTrue(true, "not logged");
 
