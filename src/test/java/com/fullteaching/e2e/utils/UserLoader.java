@@ -12,10 +12,6 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 
-import com.fullteaching.e2e.common.BrowserUser;
-import com.fullteaching.e2e.common.ChromeUser;
-import com.fullteaching.e2e.common.FirefoxUser;
-
 public class UserLoader {
 
 	public static int USERNAME = 0;
@@ -95,46 +91,7 @@ public class UserLoader {
 		return users.values();
 	}
 	
-	 public static BrowserUser setupBrowser(String browser, String testName,
-	            String userIdentifier, int secondsOfWait,String APP_URL,Logger log) {
-
-	        BrowserUser u;
-
-	        log.info("Starting browser ({})", browser);
-
-	        switch (browser) {
-	        case "chrome":
-	            u = new ChromeUser(userIdentifier, secondsOfWait, testName,
-	                    userIdentifier);
-	            break;
-	        case "firefox":
-	            u = new FirefoxUser(userIdentifier, secondsOfWait, testName,
-	                    userIdentifier);
-	            break;
-	        default:
-	            u = new ChromeUser(userIdentifier, secondsOfWait, testName,
-	                    userIdentifier);
-	        }
-
-	        log.info("Navigating to {}", APP_URL);
-
-	        u.getDriver().get(APP_URL);
-	        //For solve some problems with certain window resolutions
-	        u.getDriver().manage().window().maximize();
-
-	        final String GLOBAL_JS_FUNCTION = "var s = window.document.createElement('script');"
-	                + "s.innerText = 'window.MY_FUNC = function(containerQuerySelector) {"
-	                + "var elem = document.createElement(\"div\");"
-	                + "elem.id = \"video-playing-div\";"
-	                + "elem.innerText = \"VIDEO PLAYING\";"
-	                + "document.body.appendChild(elem);"
-	                + "console.log(\"Video check function successfully added to DOM by Selenium\")}';"
-	                + "window.document.head.appendChild(s);";
-
-	        u.runJavascript(GLOBAL_JS_FUNCTION);
-
-	        return u;
-	    }
+	
 	
 
 }

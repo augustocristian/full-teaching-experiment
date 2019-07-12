@@ -53,7 +53,7 @@ public class FullTeachingTestE2E {
                 secondsOfWait);
     }
 
-    protected BrowserUser setupBrowser(String browser, String testName,
+    protected  BrowserUser setupBrowser(String browser, String testName,
             String userIdentifier, int secondsOfWait) {
 
         BrowserUser u;

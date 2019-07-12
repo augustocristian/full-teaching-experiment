@@ -1,19 +1,19 @@
 package com.fullteaching.backend.e2e;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,167 +21,206 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import  static com.fullteaching.e2e.common.Constants.*;
 
 import com.fullteaching.e2e.common.CourseNavigationUtilities;
-import com.fullteaching.e2e.common.ForumNavigationUtilities;
 import com.fullteaching.e2e.common.NavigationUtilities;
+import com.fullteaching.e2e.common.SessionNavigationUtilities;
+import com.fullteaching.e2e.common.UserUtilities;
 import com.fullteaching.e2e.common.exception.BadUserException;
 import com.fullteaching.e2e.common.exception.ElementNotFoundException;
 import com.fullteaching.e2e.common.exception.NotLoggedException;
-import com.fullteaching.e2e.common.exception.TimeOutExeception;
 import com.fullteaching.e2e.utils.Click;
-import com.fullteaching.e2e.utils.DOMMannager;
 import com.fullteaching.e2e.utils.Wait;
 
-import io.github.bonigarcia.SeleniumExtension;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.github.bonigarcia.wdm.FirefoxDriverManager;
 
 //@Disabled
-public class LoggedVideoSession extends BaseLoggedTest {
+public class LoggedVideoSession extends FullTeachingTestE2E {
 
 	//1 teacher
-	protected WebDriver teacherDriver;
+	protected static WebDriver teacherDriver;
 	
 	public static final String CHROME = "chrome";
 	public static final String FIREFOX = "firefox";
 
 	
 	//at least 1 student;
-	protected List<BrowserUser> studentDriver;
+	protected static List<BrowserUser> studentDriver;
 	protected static BrowserUser teacher;
 	public String teacher_data;
 	
-	public String users_data;
+	public static String users_data;
 	
-	public String courseName;
 
-	protected String teacherName;
-	protected String teachermail;
-	protected String teacher_pass;
+
+
 	
-	protected List<String>studentsmails;
-	protected List<String>studentPass;
-	protected List<String>studentNames;
+	protected static List<String>studentsmails;
+	protected static List<String>studentPass;
+	protected static List<String>studentNames;
 	
 
 	protected String host=LOCALHOST;
 	
-	protected Properties properties; 
+
 	
-	final static  Logger log = getLogger(lookup().lookupClass());
+
 
 	private String sessionName = "Today's Session";
 	private String sessionDescription= "Wow today session will be amazing";
 	private String sessionDate;
 	private String sessionHour;
 	
-	//@DriverCapabilities
-	 DesiredCapabilities capabilities = chrome();
-	 {
-	        LoggingPreferences logPrefs = new LoggingPreferences();
-	        logPrefs.enable(BROWSER, ALL);
-	        capabilities.setCapability(LOGGING_PREFS, logPrefs);
-	    }
-	 
-	 
-	 
-	 
-
-	@BeforeEach
-	public void setUp() throws BadUserException, ElementNotFoundException, NotLoggedException, TimeOutExeception {
-
-		 	log.info("[INI setUP]");
-		 	System.setProperty("webdriver.chrome.driver",
-	    	           "C:/chromedriver_win32/chromedriver.exe");
-	    	host = SetUp.getHost();
-	    	users_data=loadStudentsData("src/test/resources/inputs/default_user_LoggedVideoStudents.csv");
-	        log.info("Test over url: "+host);
-
-	        //teacher setUp
-	        
-	        teachermail ="teacher@gmail.com";
-	        teacher_pass= "pass";
-	        BrowserUser bronteacher= UserLoader.setupBrowser("chrome","BrowserTeacher",teachermail,100,APP_URL,log);
-	        teacherDriver = bronteacher.getDriver();
-	        courseName="Pseudoscientific course for treating the evil eye";
-	       
-	        
-	        /*ORIGINAL
-	         *  teacher = teacher_data.split(":")[0];
-	        teacher_pass= teacher_data.split(":")[1];
-	        teacherDriver = UserLoader.allocateNewBrowser(teacher_data.split(":")[2]);
-	        
-	         * */
-	    	//check if logged with correct user
-	        teacherDriver = SetUp.loginUser(teacherDriver, host, teachermail , teacher_pass);
-	        teacherDriver = UserUtilities.checkLogin(teacherDriver, teachermail);
-	        teacherName = UserUtilities.getUserName(teacherDriver, true, host);
-	    	
-	        //students setUp
-	        studentsmails = new ArrayList<String>();
-	    	studentPass = new ArrayList<String>();
-	    	studentNames = new ArrayList<String>();
-	    	studentDriver = new ArrayList<BrowserUser>();
-	    	
-	        String[] students_data = users_data.split(";");
-	        
-	        for(int i=0; i< students_data.length; i++) {
-	        	String studentemail = students_data[i].split(":")[0];
-	        	studentsmails.add(studentemail);
-	        	String studentpass = students_data[i].split(":")[1];
-	        	studentPass.add(studentpass);
-	        	
-	        	//WebDriver studentD = UserLoader.allocateNewBrowser(students_data[i].split(":")[2]);
-	        	BrowserUser studentD = setupBrowser("chrome","BrowserStudent"+i,studentemail,100);;
-	        	
-	        
-	        	
-	        	this.slowLogin(studentD, studentemail, studentpass);
-	        	studentNames.add(userName);	        	
-	        	studentDriver.add(studentD);
-	        	
-	        }
-	        
-	    	/* Dedicated set up to Forum tests*/
-	        /*log.info("INI dedicated setUP");
-	    	
-	    	
-	    	//LOAD PROPERTIES:
-	    	properties = new Properties();
-			try {
-				// load a properties file for reading
-				properties.load(new FileInputStream("src/test/resources/inputs/test.properties"));
-				courseName = properties.getProperty("forum.test.course");
-				
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}  
-			
-	    	log.info("End dedicated setUP");*/
-	    	/*END dedicated*/
-	    	log.info("[End setUP]");
-	    }
 	
 
+    private static String TEACHER_BROWSER;
+    private static String STUDENT_BROWSER;
 
+    static Exception ex = null;
 
-	@AfterEach
-	 public void teardown() throws IOException {
-		//TODO delete tested test if it is last test.
-        SetUp.tearDown(teacherDriver);
-        teacherDriver.close();
-        for (BrowserUser driver: studentDriver) {
-        	driver.dispose();
+    final static String teacherMail = "teacher@gmail.com";
+    final static String teacherPass = "pass";
+    static String teacherName = "Teacher Cheater";
+
+    
+    String courseName="Pseudoscientific course for treating the evil eye";
+    WebDriver driver;
+
+    BrowserUser user;
+
+    public LoggedVideoSession() {
+        super();
+    }
+
+    @BeforeAll()
+    static void setupAll() {
+
+        if (System.getenv("ET_EUS_API") == null) {
+            // Outside ElasTest
+            ChromeDriverManager.getInstance().setup();
+            FirefoxDriverManager.getInstance().setup();
+        }
+
+        if (System.getenv("ET_SUT_HOST") != null) {
+            APP_URL = "https://" + System.getenv("ET_SUT_HOST") + ":5000/";
+        } else {
+            APP_URL = System.getProperty("app.url");
+            if (APP_URL == null) {
+                APP_URL = "https://localhost:5000/";
+            }
+        }
+
+        TEACHER_BROWSER = System.getenv("TEACHER_BROWSER");
+        STUDENT_BROWSER = System.getenv("STUDENT_BROWSER");
+
+        if ((TEACHER_BROWSER == null) || (!TEACHER_BROWSER.equals(FIREFOX))) {
+            TEACHER_BROWSER = CHROME;
+        }
+
+        if ((STUDENT_BROWSER == null) || (!STUDENT_BROWSER.equals(FIREFOX))) {
+            STUDENT_BROWSER = CHROME;
+        }
+
+        users_data=loadStudentsData("src/test/resources/inputs/default_user_LoggedVideoStudents.csv");
+        log.info("Using URL {} to connect to openvidu-testapp", APP_URL);
+        
+  
+       
+        
+       
+       
+        
+        /*ORIGINAL
+         *  teacher = teacher_data.split(":")[0];
+        teacher_pass= teacher_data.split(":")[1];
+        teacherDriver = UserLoader.allocateNewBrowser(teacher_data.split(":")[2]);
+        
+         * */
+    	//check if logged with correct user
+       
+    	
+        //students setUp
+        studentsmails = new ArrayList<String>();
+    	studentPass = new ArrayList<String>();
+    	studentNames = new ArrayList<String>();
+    	studentDriver = new ArrayList<BrowserUser>();
+    	
+        String[] students_data = users_data.split(";");
+        
+        for(int i=0; i< students_data.length; i++) {
+        	String studentemail = students_data[i].split(":")[0];
+        	studentsmails.add(studentemail);
+        	String studentpass = students_data[i].split(":")[1];
+        	studentPass.add(studentpass);
         	
-        }           
-    }
-	
-    public static Collection<String[]> data() throws IOException {
-        return ParameterLoader.sessionParameters();
+        	//WebDriver studentD = UserLoader.allocateNewBrowser(students_data[i].split(":")[2]);
+        
+        	
+        }
+        
     }
 
-	@ParameterizedTest
-	@MethodSource("data")
+    @AfterEach
+    void dispose(TestInfo info) {
+        try {
+            this.logout(user);
+            user.dispose();
+            
+            teacherDriver.close();
+            for (BrowserUser driver: studentDriver) {
+            	driver.dispose();
+            	
+            }  
+        } finally {
+            log.info("##### Finish test: "
+                    + info.getTestMethod().get().getName());
+        }
+    }
+
+
+	 
+
+	
+
+
+	@Test
     public void sessionTest() {
+		
+		//Set up all students
+		
+		
+		
+		
+        
+		for(int i=0; i< studentsmails.size(); i++) {
+		BrowserUser studentD = setupBrowser("chrome","BrowserStudent"+i,studentsmails.get(i),100);;
+    	this.slowLogin(studentD, studentsmails.get(i), studentPass.get(i));
+    	studentNames.add("Student"+i);	        	
+    	studentDriver.add(studentD);
+    	
+		}
+		
+		
+		//Set up the teacher
+		 BrowserUser bronteacher= setupBrowser("chrome","BrowserTeacher",teacherMail,100);
+		 slowLogin(bronteacher, teacherMail, teacherPass);
+	        teacherDriver = bronteacher.getDriver();
+	        
+	        try {
+	        	teacherDriver = UserUtilities.checkLogin(teacherDriver, teacherMail);
+				teacherName = UserUtilities.getUserName(teacherDriver, true, APP_URL);
+			} catch (NotLoggedException | BadUserException | ElementNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		
+		
+		
+		
+		
+		
+		
+		
+		
     	Calendar calendar = Calendar.getInstance();
     	calendar.setTimeInMillis(System.currentTimeMillis());
 
@@ -336,7 +375,7 @@ public class LoggedVideoSession extends BaseLoggedTest {
     	
     	
     }
-	public String loadStudentsData(String path) {
+	public static String loadStudentsData(String path) {
 		 FileReader file;
 		 String key = "";
 		try {
