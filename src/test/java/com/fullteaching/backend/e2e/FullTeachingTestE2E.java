@@ -83,6 +83,7 @@ public class FullTeachingTestE2E {
         log.info("Navigating to {}", APP_URL);
 
         u.getDriver().get(APP_URL);
+        u.getDriver().manage().window().maximize();
 
         final String GLOBAL_JS_FUNCTION = "var s = window.document.createElement('script');"
                 + "s.innerText = 'window.MY_FUNC = function(containerQuerySelector) {"
@@ -94,7 +95,7 @@ public class FullTeachingTestE2E {
                 + "window.document.head.appendChild(s);";
 
         u.runJavascript(GLOBAL_JS_FUNCTION);
-
+      
         return u;
     }
 

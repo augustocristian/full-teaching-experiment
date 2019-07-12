@@ -2,11 +2,16 @@ package com.fullteaching.backend.e2e;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import java.io.IOException;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.provider.Arguments;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -16,7 +21,7 @@ import com.fullteaching.e2e.common.exception.BadUserException;
 import com.fullteaching.e2e.common.exception.ElementNotFoundException;
 import com.fullteaching.e2e.common.exception.NotLoggedException;
 import com.fullteaching.e2e.common.exception.TimeOutExeception;
-
+import com.fullteaching.e2e.utils.ParameterLoader;
 
 import io.github.bonigarcia.SeleniumExtension;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
@@ -45,7 +50,9 @@ public class UserTest extends FullTeachingTestE2E {
 
 	BrowserUser user;
 
-
+	public static Stream<Arguments> data() throws IOException {
+        return ParameterLoader.getTestUsers();
+    }
 
 	@BeforeAll()
 	static void setupAll() {
@@ -82,7 +89,7 @@ public class UserTest extends FullTeachingTestE2E {
 	@AfterEach
 	void dispose(TestInfo info) {
 		try {
-			this.logout(user);
+			//this.logout(user);
 			user.dispose();
 		} finally {
 			log.info("##### Finish test: "

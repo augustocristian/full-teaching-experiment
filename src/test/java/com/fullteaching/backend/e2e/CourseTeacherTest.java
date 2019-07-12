@@ -5,15 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import java.util.Calendar;
-import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.provider.Arguments;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -28,8 +25,8 @@ import com.fullteaching.e2e.common.exception.ElementNotFoundException;
 import com.fullteaching.e2e.common.exception.ExceptionsHelper;
 import com.fullteaching.e2e.common.exception.NotLoggedException;
 import com.fullteaching.e2e.common.exception.TimeOutExeception;
+import com.fullteaching.e2e.utils.ParameterLoader;
 import com.fullteaching.e2e.utils.Click;
-import com.fullteaching.e2e.utils.DOMMannager;
 import com.fullteaching.e2e.utils.Wait;
 
 import io.github.bonigarcia.SeleniumExtension;
@@ -77,6 +74,10 @@ public class CourseTeacherTest extends FullTeachingTestE2E {
 		super();
 	}
 
+	   public static Stream<Arguments> data() throws IOException {
+	        return ParameterLoader.getTestTeachers();
+	    }
+		
 	@BeforeAll()
 	static void setupAll() {
 
