@@ -14,9 +14,10 @@ import org.slf4j.Logger;
 
 public class UserLoader {
 
-	public static int USERNAME = 0;
+	public static int EMAIL = 0;
 	public static int PASSWORD = 1; 
-	public static int ROLES = 2; 
+	public static int USERNAME = 2; 
+	public static int ROLES = 3; 
 	
 	private static String cvsMainFieldsSplitBy = ",";
 	private static String cvsRolesSplitBy = "\\|";
@@ -30,7 +31,7 @@ public class UserLoader {
 		if (override == true || users == null ) 
 			users = new HashMap<String, User>();
 		
-		for (User i : userlst) users.put(i.getName(),i);
+		for (User i : userlst) users.put(i.getEmail(),i);
 				
 	}
 	
@@ -62,8 +63,9 @@ public class UserLoader {
 	
 	public static User parseUser(String cvsline) {
 		String field[] = cvsline.split(cvsMainFieldsSplitBy);
-		return new User(field[USERNAME], 
-						field[PASSWORD], 
+		return new User(field[EMAIL], 
+						field[PASSWORD],
+						field[USERNAME], 
 						field[ROLES]);
 	}
 

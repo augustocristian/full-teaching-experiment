@@ -17,7 +17,7 @@ public class ParameterLoader {
 
 	public static Stream<Arguments> getTestUsers()throws IOException {
         log.debug("[getTestUsers] INI");
-        Stream records = Stream.empty();
+        Stream<Arguments> records = Stream.empty();
 
 		Collection<User> users = UserLoader.getAllUsers();
 		
@@ -33,7 +33,7 @@ public class ParameterLoader {
 	public static Stream<Arguments> getTestStudents() throws IOException {
 
         log.debug("[getTestStudents] INI");
-		Stream records = Stream.empty();
+		Stream<Arguments> records = Stream.empty();
 		
 		Collection<User> users = UserLoader.getAllUsers();
 		
@@ -50,7 +50,7 @@ public class ParameterLoader {
 	public static  Stream<Arguments> getTestTeachers() throws IOException {
 
         log.debug("[getTestTeachers] INI");
-		Stream records = Stream.empty();
+		Stream<Arguments> records = Stream.empty();
 		
 		Collection<User> users = UserLoader.getAllUsers();
 		

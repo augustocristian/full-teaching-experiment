@@ -5,23 +5,24 @@ import java.io.Serializable;
 public class User implements Serializable{
 
 	private static final long serialVersionUID = 694253668952718366L;
-	
-	private String name;
+	private String username;
+	private String email;
 	private String password;
 	private String role;
 	
 	
-	public User(String name, String password, String role) {
-		this.name = name; 
+	public User(String email, String password,String username, String role) {
+		this.email = email; 
 		this.password = password;
+		this.username=username;
 		this.role = role;
 	}
 	
-	public String getName() {
-		return name;
+	public String getEmail() {
+		return email;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setEmail(String mail) {
+		this.email = mail;
 	}
 	public String getPassword() {
 		return password;
@@ -31,12 +32,23 @@ public class User implements Serializable{
 	}
 	public String getRole() {
 		return role;
-	}
+	}	
+
 	public void setRoles(String role) {this.role = role;}
 	public String getUserCsv() {
-		return ""+name+","+password+","+getRolesCsv();
+		return ""+email+","+password+","+username+","+getRolesCsv();
 	}
 	private String getRolesCsv() {return role; }
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
 	
 	
 }

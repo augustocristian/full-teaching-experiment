@@ -34,7 +34,7 @@ import io.github.bonigarcia.wdm.FirefoxDriverManager;
 
 @ExtendWith(SeleniumExtension.class)
 public class UserTest extends FullTeachingTestE2E {
-
+//PASS
 	private static String TEACHER_BROWSER;
 	private static String STUDENT_BROWSER;
 
@@ -99,9 +99,10 @@ public class UserTest extends FullTeachingTestE2E {
 		}
 	}
 
-	@ParameterizedTest
+
 	@MethodSource("data")
-	public void loginTest(String usermail, String password, String role) throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
+	@ParameterizedTest
+	public void loginTest(String usermail, String password,String username, String role) throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
 
 		user= setupBrowser("chrome",teacherName,usermail,100);
 		WebDriver driver=user.getDriver();
