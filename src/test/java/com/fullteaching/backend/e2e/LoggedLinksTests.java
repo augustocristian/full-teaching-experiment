@@ -33,7 +33,7 @@ import io.github.bonigarcia.wdm.FirefoxDriverManager;
 
 @ExtendWith(SeleniumExtension.class)
 public class LoggedLinksTests extends FullTeachingTestE2E {
-	
+	//PASS
 	private static String TEACHER_BROWSER;
     private static String STUDENT_BROWSER;
 

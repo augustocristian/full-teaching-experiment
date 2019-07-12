@@ -46,7 +46,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 @ExtendWith(SeleniumExtension.class)
 public class CourseTeacherTest extends FullTeachingTestE2E {
-
+//PASS
 
 
 	private static String TEACHER_BROWSER;
@@ -115,7 +115,7 @@ public class CourseTeacherTest extends FullTeachingTestE2E {
 	@AfterEach
 	void dispose(TestInfo info) {
 		try {
-			this.logout(user);
+			//this.logout(user);
 			user.dispose();
 		} finally {
 			log.info("##### Finish test: "
@@ -234,7 +234,7 @@ public class CourseTeacherTest extends FullTeachingTestE2E {
 		//fill information
 		try {
 			WebElement name_field = Wait.aLittle(driver).until(ExpectedConditions.presenceOfElementLocated(By.id(NEWCOURSE_MODAL_NAMEFIELD_ID)));
-			String course_title = "Test Course_"+System.currentTimeMillis();
+			course_title = "Test Course_"+System.currentTimeMillis();
 			name_field.sendKeys(course_title); //no duplicated courses
 		}catch (TimeoutException toe) {
 			fail("New course modal doesn't appear");
