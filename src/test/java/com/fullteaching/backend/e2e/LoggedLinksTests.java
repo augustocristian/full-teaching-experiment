@@ -104,12 +104,13 @@ public class LoggedLinksTests extends FullTeachingTestE2E {
         }
     }
 
-    @ParameterizedTest
+    
 	@MethodSource("data")
-	public void spiderLoggedTest(String usermail, String password, String role)  throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
+	@ParameterizedTest
+	public void spiderLoggedTest(String usermail, String password,String username, String role)  throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
 
 	
-this.user = setupBrowser("chrome", teacherName, usermail, 30);
+this.user = setupBrowser("chrome", username, usermail, 30);
 		
 		WebDriver driver=user.getDriver();
 
@@ -131,7 +132,7 @@ this.user = setupBrowser("chrome", teacherName, usermail, 30);
 		explored = SpiderNavigation.exploreLinks(driver, pageLinks, explored, DEPTH);
 		
 		List<String> failed_links = new ArrayList<String>();
-		System.out.println(teacherMail+" tested "+explored.size()+" urls");
+		System.out.println(usermail+" tested "+explored.size()+" urls");
 		explored.forEach((link,result) -> {
 				log.debug("\t"+link+" => "+result);
 				if (result.equals("KO")) {
