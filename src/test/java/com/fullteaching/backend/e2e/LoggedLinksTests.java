@@ -53,8 +53,8 @@ public class LoggedLinksTests extends FullTeachingTestE2E {
 
         if (System.getenv("ET_EUS_API") == null) {
             // Outside ElasTest
-            ChromeDriverManager.getInstance().setup();
-            FirefoxDriverManager.getInstance().setup();
+            ChromeDriverManager.getInstance(chrome).setup();
+            FirefoxDriverManager.getInstance(firefox).setup();
         }
 
         if (System.getenv("ET_SUT_HOST") != null) {

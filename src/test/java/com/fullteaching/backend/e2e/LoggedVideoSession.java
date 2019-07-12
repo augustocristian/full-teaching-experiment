@@ -17,6 +17,8 @@ import org.junit.jupiter.api.TestInfo;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import  static com.fullteaching.e2e.common.Constants.*;
 
@@ -61,7 +63,8 @@ public class LoggedVideoSession extends FullTeachingTestE2E {
 
 	protected String host=LOCALHOST;
 	
-
+    static Class<? extends WebDriver> chrome = ChromeDriver.class;
+    static Class<? extends WebDriver> firefox = FirefoxDriver.class;
 	
 
 
@@ -96,8 +99,8 @@ public class LoggedVideoSession extends FullTeachingTestE2E {
 
         if (System.getenv("ET_EUS_API") == null) {
             // Outside ElasTest
-            ChromeDriverManager.getInstance().setup();
-            FirefoxDriverManager.getInstance().setup();
+            ChromeDriverManager.getInstance(chrome).setup();
+            FirefoxDriverManager.getInstance(firefox).setup();
         }
 
         if (System.getenv("ET_SUT_HOST") != null) {

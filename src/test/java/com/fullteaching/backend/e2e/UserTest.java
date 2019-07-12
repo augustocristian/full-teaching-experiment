@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.WebDriver;
-
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.fullteaching.e2e.common.UserUtilities;
 import com.fullteaching.e2e.common.exception.BadUserException;
@@ -31,6 +32,9 @@ public class UserTest extends FullTeachingTestE2E {
 	private static String STUDENT_BROWSER;
 
 	static Exception ex = null;
+	
+    static Class<? extends WebDriver> chrome = ChromeDriver.class;
+    static Class<? extends WebDriver> firefox = FirefoxDriver.class;
 
 	final String teacherMail = "teacher@gmail.com";
 	final String teacherPass = "pass";
@@ -48,8 +52,8 @@ public class UserTest extends FullTeachingTestE2E {
 
 		if (System.getenv("ET_EUS_API") == null) {
 			// Outside ElasTest
-			ChromeDriverManager.getInstance().setup();
-			FirefoxDriverManager.getInstance().setup();
+			ChromeDriverManager.getInstance(chrome).setup();
+			FirefoxDriverManager.getInstance(firefox).setup();
 		}
 
 		if (System.getenv("ET_SUT_HOST") != null) {

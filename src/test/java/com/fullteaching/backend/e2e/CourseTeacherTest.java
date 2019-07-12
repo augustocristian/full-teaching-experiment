@@ -55,6 +55,10 @@ public class CourseTeacherTest extends FullTeachingTestE2E {
 
 	static Exception ex = null;
 
+	
+    static Class<? extends WebDriver> chrome = ChromeDriver.class;
+    static Class<? extends WebDriver> firefox = FirefoxDriver.class;
+    
 	final String teacherMail = "teacher@gmail.com";
 	final String teacherPass = "pass";
 	final String teacherName = "Teacher Cheater";
@@ -78,8 +82,8 @@ public class CourseTeacherTest extends FullTeachingTestE2E {
 
 		if (System.getenv("ET_EUS_API") == null) {
 			// Outside ElasTest
-			ChromeDriverManager.getInstance().setup();
-			FirefoxDriverManager.getInstance().setup();
+			ChromeDriverManager.getInstance(chrome).setup();
+			FirefoxDriverManager.getInstance(firefox).setup();
 		}
 
 		if (System.getenv("ET_SUT_HOST") != null) {

@@ -17,6 +17,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import  static com.fullteaching.e2e.common.Constants.*;
 
@@ -53,6 +55,10 @@ public class LoggedForumTest extends FullTeachingTestE2E {
     final String studentPass = "pass";
     final String studentName = "Student Imprudent";
     
+    static Class<? extends WebDriver> chrome = ChromeDriver.class;
+    static Class<? extends WebDriver> firefox = FirefoxDriver.class;
+    
+    
     String courseName="Pseudoscientific course for treating the evil eye";
     WebDriver driver;
 
@@ -67,8 +73,8 @@ public class LoggedForumTest extends FullTeachingTestE2E {
 
         if (System.getenv("ET_EUS_API") == null) {
             // Outside ElasTest
-            ChromeDriverManager.getInstance().setup();
-            FirefoxDriverManager.getInstance().setup();
+            ChromeDriverManager.getInstance(chrome).setup();
+            FirefoxDriverManager.getInstance(firefox).setup();
         }
 
         if (System.getenv("ET_SUT_HOST") != null) {

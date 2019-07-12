@@ -10,7 +10,10 @@ import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -26,14 +29,17 @@ public class FullTeachingTestE2E {
 
     protected static final String CHROME = "chrome";
     protected static final String FIREFOX = "firefox";
+    
+    static Class<? extends WebDriver> chrome = ChromeDriver.class;
+    static Class<? extends WebDriver> firefox = FirefoxDriver.class;
 
     final static Logger log = getLogger(lookup().lookupClass());
 
     public FullTeachingTestE2E() {
         if (System.getenv("ET_EUS_API") == null) {
             // Outside ElasTest
-            ChromeDriverManager.getInstance().setup();
-            FirefoxDriverManager.getInstance().setup();
+            ChromeDriverManager.getInstance(chrome).setup();
+            FirefoxDriverManager.getInstance(firefox).setup();
         }
 
         if (System.getenv("ET_SUT_HOST") != null) {
