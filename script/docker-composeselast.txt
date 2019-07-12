@@ -1,0 +1,4 @@
+git clone https://github.com/augustocristian/full-teaching-experiment.git
+cd full-teaching-experiment
+git checkout DevelopmentRetorchBranch;
+mvn -Dtest=UserTest -B test;
