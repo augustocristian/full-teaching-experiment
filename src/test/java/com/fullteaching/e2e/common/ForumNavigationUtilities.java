@@ -124,9 +124,9 @@ public class ForumNavigationUtilities {
 		Wait.notTooMuch(wd).until(ExpectedConditions.visibilityOfElementLocated(FORUM_NEWENTRY_MODAL));
 
 		//fill new Entry
-		WebElement title = Wait.aLittle(wd).until(ExpectedConditions.visibilityOfElementLocated(FORUM_NEWENTRY_MODAL_TITLE));
+		WebElement title = Wait.notTooMuch(wd).until(ExpectedConditions.visibilityOfElementLocated(FORUM_NEWENTRY_MODAL_TITLE));
 		title.sendKeys(newEntryTitle);
-		WebElement comment = Wait.aLittle(wd).until(ExpectedConditions.visibilityOfElementLocated(FORUM_NEWENTRY_MODAL_CONTENT));
+		WebElement comment = Wait.notTooMuch(wd).until(ExpectedConditions.visibilityOfElementLocated(FORUM_NEWENTRY_MODAL_CONTENT));
 		comment.sendKeys(newEntryContent);
 
 		//Publish

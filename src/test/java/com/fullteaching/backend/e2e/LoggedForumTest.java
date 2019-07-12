@@ -55,12 +55,6 @@ public class LoggedForumTest extends FullTeachingTestE2E {
 
     static Exception ex = null;
 
-    final String teacherMail = "teacher@gmail.com";
-    final String teacherPass = "pass";
-    final String teacherName = "Teacher Cheater";
-    final String studentMail = "student1@gmail.com";
-    final String studentPass = "pass";
-    final String studentName = "Student Imprudent";
     
     static Class<? extends WebDriver> chrome = ChromeDriver.class;
     static Class<? extends WebDriver> firefox = FirefoxDriver.class;
@@ -113,7 +107,7 @@ public class LoggedForumTest extends FullTeachingTestE2E {
     @AfterEach
     void dispose(TestInfo info) {
         try {
-            this.logout(user);
+          //  this.logout(user);
             user.dispose();
         } finally {
             log.info("##### Finish test: "
@@ -123,16 +117,16 @@ public class LoggedForumTest extends FullTeachingTestE2E {
 
     @ParameterizedTest
 	@MethodSource("data")
-	public void forumLoadEntriesTest()  throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
+	public void forumLoadEntriesTest(String usermail, String password,String username, String role)  throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
 
 	
-		this.user = setupBrowser("chrome", teacherName, teacherMail, 30);
+		this.user = setupBrowser("chrome", username, usermail, 30);
 		
 		WebDriver driver=user.getDriver();
 
 
 
-		this.slowLogin(user, teacherMail, teacherPass);
+		this.slowLogin(user, usermail, password);
 
 
 		try {
@@ -165,14 +159,14 @@ public class LoggedForumTest extends FullTeachingTestE2E {
 						//Go into first entry
 						for (String entry_name : entries_list) {
 							WebElement entry = ForumNavigationUtilities.getEntry(driver, entry_name);
-							driver = Click.element(driver, entry.findElement(FORUMENTRYLIST_ENTRYTITLE));
+							driver = Click.clickelement(driver, entry.findElement(FORUMENTRYLIST_ENTRYTITLE));
 							//Load comments
 
 							Wait.notTooMuch(driver).until(ExpectedConditions.visibilityOfElementLocated(FORUMCOMMENTLIST));
 							List<WebElement>comments = ForumNavigationUtilities.getComments(driver);
 							if(comments.size()>0) {
 								has_comments = true;
-								List <WebElement> user_comments = ForumNavigationUtilities.getUserComments(driver, teacherName);  	    					
+								List <WebElement> user_comments = ForumNavigationUtilities.getUserComments(driver, username);  	    					
 							}//else go to next entry
 							driver = Click.clickelement(driver, DOMMannager.getParent(driver, driver.findElement(BACK_TO_ENTRIESLIST_ICON)));
 						}
@@ -200,16 +194,16 @@ public class LoggedForumTest extends FullTeachingTestE2E {
 	 */ 
     @ParameterizedTest
 	@MethodSource("data")
-	public void forumNewEntryTest()  throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
+	public void forumNewEntryTest(String usermail, String password,String username, String role)  throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
 
 	
-	this.user = setupBrowser("chrome", teacherName, teacherMail, 30);
+	this.user = setupBrowser("chrome", username, usermail, 30);
 		
 		WebDriver driver=user.getDriver();
 
 
 
-		this.slowLogin(user, teacherMail, teacherPass);
+		this.slowLogin(user, usermail, password);
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
@@ -241,14 +235,14 @@ public class LoggedForumTest extends FullTeachingTestE2E {
 			//Check entry... 
 			WebElement newEntry = ForumNavigationUtilities.getEntry(driver, newEntryTitle);
 
-			assertEquals(newEntry.findElement(FORUMENTRYLIST_ENTRY_USER).getText(),teacherName,"Incorrect user");
+			assertEquals(newEntry.findElement(FORUMENTRYLIST_ENTRY_USER).getText(),username,"Incorrect user");
 
-			driver = Click.element(driver, newEntry.findElement(FORUMENTRYLIST_ENTRYTITLE));
+			driver = Click.clickelement(driver, newEntry.findElement(FORUMENTRYLIST_ENTRYTITLE));
 			Wait.notTooMuch(driver).until(ExpectedConditions.visibilityOfElementLocated(FORUMCOMMENTLIST));
 			WebElement entryTitleRow = driver.findElement(FORUMCOMMENTLIST_ENTRY_TITLE);
 
 			assertEquals( entryTitleRow.getText().split("\n")[0], newEntryTitle,"Incorrect Entry Title");
-			assertEquals( entryTitleRow.findElement(FORUMCOMMENTLIST_ENTRY_USER).getText(), teacherName, "Incorrect User for Entry");
+			assertEquals( entryTitleRow.findElement(FORUMCOMMENTLIST_ENTRY_USER).getText(), username, "Incorrect User for Entry");
 
 			//first comment should be the inserted while creating the entry
 			List<WebElement>comments = ForumNavigationUtilities.getComments(driver);
@@ -263,7 +257,7 @@ public class LoggedForumTest extends FullTeachingTestE2E {
 			
 			String comentario =newComment.findElement(FORUMCOMMENTLIST_COMMENT_USER).getText();
 
-			assertEquals(comentario,teacherName,"Bad user in comment");
+			assertEquals(comentario,username,"Bad user in comment");
 
 		}catch(ElementNotFoundException enfe) {
 			fail("Failed to navigate to course forum:: "+ enfe.getClass()+ ": "+enfe.getLocalizedMessage());
@@ -281,10 +275,10 @@ public class LoggedForumTest extends FullTeachingTestE2E {
 	 */ 
     @ParameterizedTest
 	@MethodSource("data")
-	public void forumNewCommentTest(String usermail, String password, String role)  throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
+	public void forumNewCommentTest(String usermail, String password,String username, String role)  throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
 
 		
-	this.user = setupBrowser("chrome", teacherName, usermail, 30);
+	this.user = setupBrowser("chrome", username, usermail, 30);
 		
 		WebDriver driver=user.getDriver();
 
@@ -328,7 +322,7 @@ public class LoggedForumTest extends FullTeachingTestE2E {
 				entry = ForumNavigationUtilities.getEntry(driver, entries_list.get(0));
 			}
 			//go to entry 
-			driver = Click.element(driver, entry.findElement(FORUMENTRYLIST_ENTRYTITLE));
+			driver = Click.clickelement(driver, entry.findElement(FORUMENTRYLIST_ENTRYTITLE));
 			WebElement commentList = Wait.notTooMuch(driver).until(ExpectedConditions.visibilityOfElementLocated(FORUMCOMMENTLIST));
 
 			//new comment
@@ -351,7 +345,7 @@ public class LoggedForumTest extends FullTeachingTestE2E {
 				//check if it is new comment
 				if (comment.findElement(FORUMCOMMENTLIST_COMMENT_CONTENT).getText().equals(newCommentContent)) {
 					commentFound = true;
-					assertEquals(comment.findElement(FORUMCOMMENTLIST_COMMENT_USER).getText(),teacherName,"Bad user in comment");
+					assertEquals(comment.findElement(FORUMCOMMENTLIST_COMMENT_USER).getText(),username,"Bad user in comment");
 				}
 			}
 			assertEquals(commentFound, true, "Comment not found");
@@ -372,9 +366,9 @@ public class LoggedForumTest extends FullTeachingTestE2E {
 	 */ 
     @ParameterizedTest
 	@MethodSource("data")
-	public void forumNewReply2CommentTest(String usermail, String password, String role)  throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
+	public void forumNewReply2CommentTest(String usermail, String password,String username, String role)  throws ElementNotFoundException, BadUserException, NotLoggedException, TimeOutExeception {
 	
-	this.user = setupBrowser("chrome", teacherName, usermail, 30);
+	this.user = setupBrowser("chrome", username, usermail, 30);
 		
 		WebDriver driver=user.getDriver();
 
@@ -418,7 +412,7 @@ public class LoggedForumTest extends FullTeachingTestE2E {
 				entry = ForumNavigationUtilities.getEntry(driver, entries_list.get(0));
 			}
 			//go to entry 
-			driver = Click.element(driver, entry.findElement(FORUMENTRYLIST_ENTRYTITLE));
+			driver = Click.clickelement(driver, entry.findElement(FORUMENTRYLIST_ENTRYTITLE));
 			WebElement commentList = Wait.notTooMuch(driver).until(ExpectedConditions.visibilityOfElementLocated(FORUMCOMMENTLIST));
 			List<WebElement>comments = ForumNavigationUtilities.getComments(driver);
 
@@ -450,7 +444,7 @@ public class LoggedForumTest extends FullTeachingTestE2E {
 			}
 			//assert reply
 			assertNotNull(newReply,"Reply not found");
-			boolean asserto=newReply.findElement(FORUMCOMMENTLIST_COMMENT_USER).getText().equals(teacherName);
+			boolean asserto=newReply.findElement(FORUMCOMMENTLIST_COMMENT_USER).getText().equals(username);
 			assertTrue(asserto,"Bad user in comment");
 
 			//nested reply
