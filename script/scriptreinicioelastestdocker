@@ -1,0 +1,23 @@
+#!/bin/bash
+
+echo "Reiniciando elastest.Prune de los containers"
+
+docker container prune
+
+echo "Reiniciando elastest.Prune de las imagenes"
+
+docker image prune
+
+echo "Reiniciando elastest.prune de los volumenes"
+
+docker volume prune
+
+echo "Reiniciando elastest.Eliminando los contenedores"
+
+docker rm $(docker ps -a -q)
+
+echo "Reiniciando elastest.Eliminando todas las imagenes"
+
+docker rmi $(docker images -q)
+
+docker run --rm -v ~/.elastest:/data -v /var/run/docker.sock:/var/run/docker.sock elastest/platform start
