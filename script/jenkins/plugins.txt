@@ -1,0 +1,3 @@
+maven-plugin
+git
+github
