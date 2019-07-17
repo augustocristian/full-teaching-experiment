@@ -10,6 +10,8 @@ services:
       - "50000:50000"
     volumes:
       - jenkins_home:/var/jenkins_home
+    networks:
+      - elastest_elastest
  
 volumes:
   jenkins_home:
