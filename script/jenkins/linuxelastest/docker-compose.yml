@@ -1,20 +1,20 @@
-version: '3.3'
-services:
-  master:
-    build: .
-    image: elastest/etm-jenkins:1.0.3
-    restart: unless-stopped
-    hostname: jenkins
-    ports:
-      - "0.0.0.0:37092:8080"
-      - "50000:50000"
-    volumes:
-      - jenkins_home:/var/jenkins_home
-
-volumes:
-  jenkins_home:
-networks:
-  default:
-    external:
-      name: elastest_elastest
- 
+version: '3.4'
+services:        
+    etm-jenkins:
+      image: 'elastest/etm-jenkins:1.0.3'
+      expose:
+            - 8080
+      ports:
+            - "37092:8080"
+      environment:
+            - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+            - INTEGRATED_JENKINS=true
+            - JENKINS_OPTS="--prefix=/augustojenkins"
+      volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - ${ET_DATA_IN_HOST}/jenkins_home:/var/jenkins_home
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "50m"
+          max-file: "5"
