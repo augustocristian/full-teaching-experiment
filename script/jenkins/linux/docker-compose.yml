@@ -11,7 +11,9 @@ services:
     volumes:
       - jenkins_home:/var/jenkins_home
     networks:
-      - elastest_elastest
+  default:
+    external:
+      name: elastest_elastest
  
 volumes:
   jenkins_home:
