@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   master:
     build: .
@@ -12,13 +12,9 @@ services:
       - JENKINS_OPTS="--prefix=/augustojenkins"
     volumes:
       - jenkins_home:/var/jenkins_home
-      - docker_sock:/var/run/docker.sock
-      
-    
-
+      - /var/run/docker.sock:/var/run/docker.sock 
 volumes:
   jenkins_home:
-  docker_sock:
 networks:
   default:
     external:
