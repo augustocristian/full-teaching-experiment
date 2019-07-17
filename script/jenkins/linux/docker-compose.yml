@@ -8,8 +8,11 @@ services:
     ports:
       - "33333:8080"
       - "50000:50000"
+    enviroment:
+      - JENKINS_OPTS="--prefix=/augustojenkins"
     volumes:
       - jenkins_home:/var/jenkins_home
+    
 
 volumes:
   jenkins_home:
