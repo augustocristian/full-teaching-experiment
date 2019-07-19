@@ -9,7 +9,6 @@ services:
       - "127.0.0.1:9000:9000"
     networks:
       - sonarnet
-      -
     environment:
       - SONARQUBE_JDBC_URL=jdbc:postgresql://db:5432/sonar
       - SONARQUBE_JDBC_USERNAME=sonar
@@ -34,8 +33,9 @@ services:
 networks:
   sonarnet:
 
-  external:
-    name: elastest_elastest
+  default:
+    external:
+      name: elastest_elastest
  
 
 volumes:
