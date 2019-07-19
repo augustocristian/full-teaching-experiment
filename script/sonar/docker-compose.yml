@@ -34,9 +34,8 @@ services:
 networks:
   sonarnet:
 
-  default:
-    external:
-      name: elastest_elastest
+  external:
+    name: elastest_elastest
  
 
 volumes:
